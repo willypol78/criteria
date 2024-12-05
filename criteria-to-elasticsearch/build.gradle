@@ -1,0 +1,30 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':criteria')
+    implementation 'co.elastic.clients:elasticsearch-java:8.16.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.1'
+
+    testImplementation 'org.mockito:mockito-core:5.14.2'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from(components.java)
+        }
+    }
+}

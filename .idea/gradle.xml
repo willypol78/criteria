@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../../../../Programas/gradle-8.2.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/criteria" />
+            <option value="$PROJECT_DIR$/criteria-from-http-servlet-request" />
+            <option value="$PROJECT_DIR$/criteria-to-elasticsearch" />
+            <option value="$PROJECT_DIR$/criteria-to-jdbc" />
+            <option value="$PROJECT_DIR$/criteria-to-spring-jpa" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
