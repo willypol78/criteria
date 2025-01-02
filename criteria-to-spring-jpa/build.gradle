@@ -1,5 +1,8 @@
 plugins {
     id 'java-library'
+    id 'maven-publish'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
 repositories {
@@ -7,18 +10,24 @@ repositories {
 }
 
 dependencies {
+    implementation project(':criteria')
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.testcontainers:junit-jupiter:1.19.1")
+    testImplementation("org.testcontainers:postgresql:1.19.1")
 }
 
 test {
     useJUnitPlatform()
 }
 
-//publishing {
-//    publications {
-//        maven(MavenPublication) {
-//            from components.java
-//        }
-//    }
-//}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
