@@ -20,10 +20,9 @@ class CriteriaTest {
 	@Test
 	@DisplayName("Should throw an error when the page number is defined but page size is not")
 	void shouldThrowAnErrorWhenThePageNumberIsDefinedButPageFilterSizeIsNot() {
-		assertThrows(InvalidCriteria.class, () -> {
-			new Criteria(new Filters(List.of()), Order.none(), null, new Random().nextInt(100) + 1);
-		});
+		assertThrows(InvalidCriteria.class, () -> new Criteria(new Filters(List.of()), Order.none(), null, new Random().nextInt(100) + 1));
 	}
+
 
 	@Test
 	@DisplayName("Should create Criteria from primitives")
@@ -52,9 +51,7 @@ class CriteriaTest {
 		Integer                pageSize         = null;
 		Integer                pageNumber       = 1;
 
-		assertThrows(InvalidCriteria.class, () -> {
-			Criteria.fromPrimitives(filterPrimitives, orderBy, orderType, pageSize, pageNumber);
-		});
+		assertThrows(InvalidCriteria.class, () -> Criteria.fromPrimitives(filterPrimitives, orderBy, orderType, pageSize, pageNumber));
 	}
 
 	@Test
@@ -68,9 +65,7 @@ class CriteriaTest {
 		Integer pageSize   = 10;
 		Integer pageNumber = 1;
 
-		assertThrows(InvalidCriteria.class, () -> {
-			Criteria.fromPrimitives(filterPrimitives, orderBy, orderType, pageSize, pageNumber);
-		});
+		assertThrows(InvalidCriteria.class, () -> Criteria.fromPrimitives(filterPrimitives, orderBy, orderType, pageSize, pageNumber));
 	}
 
 
@@ -99,14 +94,11 @@ class CriteriaTest {
 		List<FilterPrimitives> filterPrimitives = List.of(
 				new FilterPrimitives(Optional.of("validField"), "EQUALS", Optional.of("validValue")) // Assumes constructor for valid filter
 		);
-		String  orderBy    = "someField";
-		String  orderType  = "ASC";
-		Integer pageSize   = 10;
-		Integer pageNumber = null;
+		String  orderBy   = "someField";
+		String  orderType = "ASC";
+		Integer pageSize  = 10;
 
-		assertThrows(InvalidCriteria.class, () -> {
-			Criteria.fromPrimitives(filterPrimitives, orderBy, orderType, pageSize, pageNumber);
-		});
+		assertThrows(InvalidCriteria.class, () -> Criteria.fromPrimitives(filterPrimitives, orderBy, orderType, pageSize, null));
 	}
 
 

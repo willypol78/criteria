@@ -9,8 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CriteriaToFilterOperandConverterTest {
 
@@ -27,7 +27,7 @@ class CriteriaToFilterOperandConverterTest {
 
 		// Then
 		assertNotNull(filterOperand);
-		assertTrue(filterOperand instanceof VoidFilterOperand);
+		assertInstanceOf(VoidFilterOperand.class, filterOperand);
 	}
 
 
