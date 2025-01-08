@@ -10,13 +10,14 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestMethodOrder(MethodOrderer.Random.class)
 class CriteriaFromHttpServletRequestDqlConverterTest {
 
 	@Test
 	@DisplayName("Should convert one filter to criteria payload DQL")
-	void shouldConvertsOneFilterToCriteria() throws InvalidCriteria {
+	void shouldConvertsOneFilterToCriteria() throws InvalidCriteria, InvalidDQL {
 		// Given
 		CriteriaFromHttpServletRequestDqlConverter converter = new CriteriaFromHttpServletRequestDqlConverter();
 
@@ -46,7 +47,7 @@ class CriteriaFromHttpServletRequestDqlConverterTest {
 
 	@Test
 	@DisplayName("Should convert complex criteria from request payload DQL")
-	void shouldConvertComplexCriteriaFromRequest() throws InvalidCriteria {
+	void shouldConvertComplexCriteriaFromRequest() throws InvalidCriteria, InvalidDQL {
 		// Given
 		CriteriaFromHttpServletRequestDqlConverter converter = new CriteriaFromHttpServletRequestDqlConverter();
 
@@ -81,6 +82,24 @@ class CriteriaFromHttpServletRequestDqlConverterTest {
 		assertEquals("", criteria.orderBy().value());
 		assertEquals(OrderType.NONE, criteria.orderType());
 		assertNull(criteria.pageSize());
+	}
+
+	@Test
+	@DisplayName("Should throw InvalidDQL exception when invalid payload DQL")
+	void shouldThrowInvalidDQLExceptionWhenInvalidPayload() {
+		// Given
+		CriteriaFromHttpServletRequestDqlConverter converter = new CriteriaFromHttpServletRequestDqlConverter();
+
+		MockHttpServletRequest mockRequest = new MockHttpServletRequest();
+		mockRequest.setRequestURI("/api/v1/users");
+		mockRequest.setContentType("application/json");
+		String jsonPayload = """	
+				{Invalid payload}
+				""";
+		mockRequest.setContent(jsonPayload.getBytes());
+
+		// When & Then
+		assertThrows(InvalidDQL.class, () -> converter.toCriteria(mockRequest));
 	}
 
 }
