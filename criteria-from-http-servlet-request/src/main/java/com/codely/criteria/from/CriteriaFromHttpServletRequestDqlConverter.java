@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public final class CriteriaFromHttpServletRequestDqlConverter {
 	private static final Logger log = LogManager.getLogger(CriteriaFromHttpServletRequestDqlConverter.class);
 
-	public Criteria toCriteria(HttpServletRequest postRequest) throws InvalidCriteria {
+	public Criteria toCriteria(HttpServletRequest postRequest) throws InvalidCriteria, InvalidDQL {
 
 		List<FilterPrimitives> filters = toFilterPrimitivesListFromBody(postRequest);
 
@@ -29,7 +29,7 @@ public final class CriteriaFromHttpServletRequestDqlConverter {
 		return Criteria.fromPrimitives(filters, orderBy, orderType, pageSize, pageNumber);
 	}
 
-	private List<FilterPrimitives> toFilterPrimitivesListFromBody(HttpServletRequest request) {
+	private List<FilterPrimitives> toFilterPrimitivesListFromBody(HttpServletRequest request) throws InvalidDQL {
 
 		FilterPrimitivesMapper mapper = new FilterPrimitivesMapper();
 
@@ -40,7 +40,7 @@ public final class CriteriaFromHttpServletRequestDqlConverter {
 		} catch (IOException e) {
 			log.error("Error reading request body");
 			log.trace(e);
-			return List.of();
+			throw new InvalidDQL();
 		}
 	}
 }
