@@ -5,6 +5,9 @@ import java.util.Optional;
 public sealed interface FilterOperator permits BooleanFilterOperator, ComparatorFilterOperator, ParenthesisFilterOperator {
 
 	static Optional<FilterOperator> fromValue(String operator) {
+		if (operator == null) {
+			return Optional.empty();
+		}
 		return switch (operator) {
 			case "(" -> Optional.of(ParenthesisFilterOperator.OPEN_BRACE);
 			case ")" -> Optional.of(ParenthesisFilterOperator.CLOSE_BRACE);
