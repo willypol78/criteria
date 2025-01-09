@@ -50,6 +50,8 @@ Convert a Criteria to:
 
 You can also create your custom transformer.
 
+> ⚠️ You must use the critera with the from/to converters in the same version.
+
 ### ✅ Testing
 
 To facilitate the testing of the criteria, you can use the provided in test packages [object mothers](https://www.martinfowler.com/bliki/ObjectMother.html)
