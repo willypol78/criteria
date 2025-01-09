@@ -50,7 +50,7 @@ Convert a Criteria to:
 
 You can also create your custom transformer.
 
-> ⚠️ You must use the critera with the from/to converters in the same version.
+> ⚠️ You must use the Criteria with the from/to converters in the same version.
 
 ### ✅ Testing
 
