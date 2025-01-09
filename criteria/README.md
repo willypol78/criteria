@@ -50,15 +50,30 @@ Convert a Criteria to:
 
 You can also create your custom transformer.
 
-### ✅ Testing
+## 💡 Tips
+
+### Valid Filter Operators
+
+* Boolean:
+    * NOT, AND, OR
+* Comparison:
+    * EQUAL, "="
+    * EQUAL_STRICT, "=="
+    * NOT_EQUAL, !="
+    * NOT_EQUAL_STRICT, "!=="
+    * GT, ">"
+    * LT, "<"
+    * GTE, ">="
+    * LTE, "<="
+    * CONTAINS, "=*"
+    * CONTAINS_STRICT, "==*"
+    * REG_EXP, "~"
+* Parenthesis:
+    * OPEN_PARENTHESIS, "("
+    * CLOSE_PARENTHESIS, ")"
+
+## ✅ Testing
 
 To facilitate the testing of the criteria, you can use the provided in test packages [object mothers](https://www.martinfowler.com/bliki/ObjectMother.html)
-
-## ➕ Other implementations
-
-- We have [another implementation in TypeScript](https://github.com/CodelyTV/typescript-criteria) with converters for Next.js and URL. 🙌
-- We have [another implementation in PHP](https://github.com/CodelyTV/php-criteria) with converters for Laravel and Symfony. 🙌
-
-## 🚀 Release
 
 ...
