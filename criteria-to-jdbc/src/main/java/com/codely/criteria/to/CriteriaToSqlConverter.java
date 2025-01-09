@@ -28,7 +28,12 @@ import java.util.stream.Stream;
 
 public final class CriteriaToSqlConverter {
 
-	private int next = 0;
+	private final SQLTransformer sqlTransformer;
+	private       int            next = 0;
+
+	public CriteriaToSqlConverter(final SQLTransformer sqlTransformer) {
+		this.sqlTransformer = sqlTransformer;
+	}
 
 	public SqlAndParams convert(String tableName, Criteria criteria) throws InvalidFilter {
 		FilterOperand filterOperand = new CriteriaToFilterOperandConverter().convert(criteria);
@@ -36,16 +41,10 @@ public final class CriteriaToSqlConverter {
 		String       select = "SELECT * FROM " + tableName + " WHERE 1=1 AND ";
 		SqlAndParams where  = operandToSql(filterOperand);
 		String       order  = "";
-		String       size   = "";
 		if (!criteria.orderType().isNone()) {
 			order = " ORDER BY " + criteria.orderBy().value() + " " + criteria.orderType().value();
 		}
-		if (criteria.pageSize() > 0) {
-			size = " LIMIT " + criteria.pageSize();
-			if (criteria.pageNumber() > 0) {
-				size += " OFFSET " + criteria.pageNumber() * criteria.pageSize();
-			}
-		}
+		String size = sqlTransformer.limitAndOffset(criteria.pageNumber(), criteria.pageSize());
 
 		return new SqlAndParams(select + where.sql() + order + size, where.params());
 	}
