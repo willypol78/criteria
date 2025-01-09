@@ -87,15 +87,37 @@ http://localhost:3000/api/v1/users
      &size=10
 ```
 
+### DSL examples
+
+```json
+[
+  {
+    "field": "name",
+    "operator": "=",
+    "value": "John"
+  },
+  {
+    "operator": "and"
+  },
+  {
+    "operator": "not"
+  },
+  {
+    "operator": "("
+  },
+  {
+    "field": "age",
+    "operator": "<",
+    "value": "2"
+  },
+  {
+    "operator": ")"
+  }
+]
+```
+
+The order and pagination always are used in the URI.
+
 ## ✅ Testing
 
 To facilitate the testing of the criteria, you can use the provided in test packages [object mothers](https://www.martinfowler.com/bliki/ObjectMother.html)
-
-## ➕ Other implementations
-
-- We have [another implementation in TypeScript](https://github.com/CodelyTV/typescript-criteria) with converters for Next.js and URL. 🙌
-- We have [another implementation in PHP](https://github.com/CodelyTV/php-criteria) with converters for Laravel and Symfony. 🙌
-
-## 🚀 Release
-
-...
