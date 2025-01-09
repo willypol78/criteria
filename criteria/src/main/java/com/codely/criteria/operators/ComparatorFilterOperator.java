@@ -24,10 +24,23 @@ public enum ComparatorFilterOperator implements FilterOperator {
 
 	public static Optional<ComparatorFilterOperator> fromValue(Object value) {
 		return Arrays.stream(ComparatorFilterOperator.values())
-				.filter(f -> f.operator.equalsIgnoreCase(value.toString()))
+				.filter(f -> isOperatorInValues(value.toString()) || isOperatorInEnum(value.toString()))
 				.map(Optional::of)
 				.findFirst()
 				.orElse(Optional.empty());
+	}
+
+	private static boolean isOperatorInValues(String value) {
+		return Arrays.stream(ComparatorFilterOperator.values()).anyMatch(f -> f.operator.equalsIgnoreCase(value));
+	}
+
+	public static boolean isOperatorInEnum(String value) {
+		try {
+			ComparatorFilterOperator.valueOf(value);
+			return true;
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
 	}
 
 	public String operator() {
