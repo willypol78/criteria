@@ -46,7 +46,42 @@ You can also create your custom transformer.
 
 ## 💻 Usage
 
-### ✅ Testing
+The criteria converter expect an url with the following format:
+
+* **filters**: An array of filters. Composed by:
+    * **f**: The field to filter by.
+    * **o**: The operator to apply. [You can see here] the valid operators list.
+    * **v**: The value to filter by.
+* **orderBy**: The field to order by.
+* **orderType**: The order to apply. ASC or DESC.
+* **size**: The number of items per page.
+* **page**: The page number.
+
+You can change this definition to match your needs in CriteriaFromHttpServletRequestUriConverter.java
+
+```java
+private static final String FILTERS = "f";
+private static final String FIELD = "f";
+private static final String OPERATOR = "o";
+private static final String VALUE = "v";
+```
+
+### Url examples
+
+Url with one filter and no order or pagination:
+
+```
+http://localhost:3000/api/users?f[0][f]=name&f[0][o]=CONTAINS&f[0][v]=Javi
+```
+
+Url with two filter, order and pagination:
+
+```
+http://localhost:3000/api/v1/users
+     ?f[0][f]=name&f[0][o]=%3D&f[0][v]=John&f[1][o]=AND&f[2][o]=NOT&f[3][o]=(&f[4][f]=age&f[4][o]=%3C&f[4][v]=18&f[5][o]=OR&f[6][f]=age&f[6][o]=%3E&f[6][v]=65&f[7][o]=)&orderBy=name&orderType=ASC&page=1&size=10
+```
+
+## ✅ Testing
 
 To facilitate the testing of the criteria, you can use the provided in test packages [object mothers](https://www.martinfowler.com/bliki/ObjectMother.html)
 
