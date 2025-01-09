@@ -78,7 +78,13 @@ Url with two filter, order and pagination:
 
 ```
 http://localhost:3000/api/v1/users
-     ?f[0][f]=name&f[0][o]=%3D&f[0][v]=John&f[1][o]=AND&f[2][o]=NOT&f[3][o]=(&f[4][f]=age&f[4][o]=%3C&f[4][v]=18&f[5][o]=OR&f[6][f]=age&f[6][o]=%3E&f[6][v]=65&f[7][o]=)&orderBy=name&orderType=ASC&page=1&size=10
+     ?f[0][f]=name&f[0][o]=EQUAL&f[0][v]=John
+     &f[1][o]=AND&f[2][o]=NOT&f[3][o]=(&f[4][f]=age&f[4][o]=GT&f[4][v]=18
+     &f[5][o]=OR&f[6][f]=age&f[6][o]=%3E&f[6][v]=65&f[7][o]=)
+     &orderBy=name
+     &orderType=ASC
+     &page=1
+     &size=10
 ```
 
 ## ✅ Testing
