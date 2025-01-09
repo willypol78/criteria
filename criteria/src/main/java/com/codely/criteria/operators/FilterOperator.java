@@ -9,8 +9,8 @@ public sealed interface FilterOperator permits BooleanFilterOperator, Comparator
 			return Optional.empty();
 		}
 		return switch (operator) {
-			case "(" -> Optional.of(ParenthesisFilterOperator.OPEN_BRACE);
-			case ")" -> Optional.of(ParenthesisFilterOperator.CLOSE_BRACE);
+			case "(" -> Optional.of(ParenthesisFilterOperator.OPEN_PARENTHESIS);
+			case ")" -> Optional.of(ParenthesisFilterOperator.CLOSE_PARENTHESIS);
 			case "NOT" -> Optional.of(BooleanFilterOperator.NOT);
 			case "AND" -> Optional.of(BooleanFilterOperator.AND);
 			case "OR" -> Optional.of(BooleanFilterOperator.OR);

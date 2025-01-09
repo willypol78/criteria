@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum ParenthesisFilterOperator implements FilterOperator {
-	OPEN_BRACE("("),
-	CLOSE_BRACE(")");
+	OPEN_PARENTHESIS("("),
+	CLOSE_PARENTHESIS(")");
 
 	private final String operator;
 
