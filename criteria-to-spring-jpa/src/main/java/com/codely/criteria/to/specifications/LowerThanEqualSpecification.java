@@ -7,6 +7,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 public final class LowerThanEqualSpecification<T> implements Specification<T> {
 	private final transient LowerThanEqualOperand operand;
@@ -15,7 +16,7 @@ public final class LowerThanEqualSpecification<T> implements Specification<T> {
 
 	@Override
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public Predicate toPredicate(final Root<T> root, final @NonNull CriteriaQuery<?> query, final CriteriaBuilder criteriaBuilder) {
+	public Predicate toPredicate(@NonNull final Root<T> root, @Nullable final CriteriaQuery<?> query, @NonNull final CriteriaBuilder criteriaBuilder) {
 		return criteriaBuilder.lessThanOrEqualTo(root.get(operand.field()), (Comparable) operand.value());
 	}
 }
