@@ -4,7 +4,7 @@ plugins {
 }
 
 allprojects {
-    group = 'com.codely'   // Grupo global para todos los módulos
+    group = 'dev.willypol'   // Grupo global para todos los módulos
     version = '1.0.0'       // Versión global para todos los módulos
 
     repositories {
