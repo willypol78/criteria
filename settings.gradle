@@ -1,4 +1,4 @@
-rootProject.name = 'common-lib'
+rootProject.name = 'criteria-lib'
 include 'criteria'
 include 'criteria-from-http-servlet-request'
 include 'criteria-to-elasticsearch'
