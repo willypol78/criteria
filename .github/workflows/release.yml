@@ -27,12 +27,26 @@ jobs:
         run: |
           gpg --batch --import private.key
 
-      - name: Build & Publish with JReleaser
-        uses: jreleaser/release-action@v2
-        with:
-          version: latest
+      - name: Download and setup JReleaser
+        run: |
+          wget -q https://github.com/jreleaser/jreleaser/releases/download/v1.18.0/jreleaser-1.18.0.zip
+          unzip -q jreleaser-1.18.0.zip
+          echo "$PWD/jreleaser-1.18.0/bin" >> $GITHUB_PATH
+
+      - name: Run JReleaser
+        run: jreleaser full-release
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+
+#      - name: Build & Publish with JReleaser
+#        uses: jreleaser/release-action@v2
+#        with:
+#          version: latest
+#        env:
+#          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+#          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+#          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
