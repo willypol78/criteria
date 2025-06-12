@@ -1,7 +1,5 @@
 package dev.willypol.operands;
 
-import dev.willypol.filters.Filter;
-
 import java.util.List;
 
 /**
