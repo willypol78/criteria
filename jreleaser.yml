@@ -14,9 +14,9 @@ project:
 signing:
   active: ALWAYS
   armored: true
-  publicKey: {{GPG_PUBLIC_KEY_BASE64}}
-  secretKey: {{GPG_PRIVATE_KEY_BASE64}}
-  passphrase: {{GPG_PASSPHRASE}}
+  publicKey: "{{GPG_PUBLIC_KEY_BASE64}}"
+  secretKey: "{{GPG_PRIVATE_KEY_BASE64}}"
+  passphrase: "{{GPG_PASSPHRASE}}"
 
 assemble:
   maven:
