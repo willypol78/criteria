@@ -4,6 +4,16 @@ import dev.willypol.errors.InvalidFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a collection of filters that can be used to build complex filtering expressions.
+ * <p>
+ * This class provides methods to create filters from primitive filter representations,
+ * check if the collection is empty, and retrieve the list of filters.
+ * </p>
+ *
+ * @author Guillermo Mir
+ * @since 1.0.0
+ */
 public final class Filters {
 
 	private final List<Filter> filterList;
