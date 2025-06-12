@@ -1,10 +1,11 @@
 plugins {
-    id 'java'
-    id 'maven-publish'
+    id 'java-library' apply false
+    id "maven-publish"
+    id "signing"
 }
 
 allprojects {
-    group = 'dev.willypol'   // Grupo global para todos los módulos
+    group = 'io.github.willypol78'   // Grupo global para todos los módulos
     version = '1.0.0'       // Versión global para todos los módulos
 
     repositories {
@@ -13,18 +14,13 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'java'
+    apply plugin: 'java-library'
     java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(21))
-        }
+        withJavadocJar()
+        withSourcesJar()
     }
-}
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from(components.java)
-        }
+    repositories {
+        mavenCentral()
     }
 }

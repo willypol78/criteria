@@ -1,11 +1,5 @@
-plugins {
-    id 'java-library'
-    id 'maven-publish'
-}
-
-repositories {
-    mavenCentral()
-}
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 dependencies {
     implementation project(':criteria')
@@ -24,7 +18,36 @@ test {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            from(components.java)
+            from components.java
+
+            pom {
+                name = "Criteria To Elasticsearch transformer"
+                description = "Criteria transformers for simplifying the search across several data sources."
+                url = "https://github.com/willypol78/criteria"
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = "willypol78"
+                        name = "Guillermo Mir"
+                        email = "guillermo.mir@gmail.com"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/willypol78/criteria.git"
+                    developerConnection = "scm:git:ssh://github.com:willypol78/criteria.git"
+                    url = "https://github.com/willypol78/criteria.git"
+                }
+            }
         }
     }
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications.mavenJava
 }
