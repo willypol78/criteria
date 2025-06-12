@@ -14,7 +14,7 @@ project:
 signing:
   active: ALWAYS
   armored: true
-  key: {{GPG_PUBLIC_KEY_BASE64}}
+  publicKey: {{GPG_PUBLIC_KEY_BASE64}}
   secretKey: {{GPG_PRIVATE_KEY_BASE64}}
   passphrase: {{GPG_PASSPHRASE}}
 
