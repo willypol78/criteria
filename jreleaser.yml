@@ -40,13 +40,13 @@ deploy:
         stagingRepositories:
           - target/staging-deploy
 
-assemble:
-  javaArchive:
-    criteria-lib:
-      active: ALWAYS
-      artifacts:
-        - path: ./criteria/build/libs/criteria-{{projectVersion}}.jar
-        - path: ./criteria-from-http-servlet-request/build/libs/criteria-from-http-servlet-request-{{projectVersion}}.jar
-        - path: ./criteria-to-elasticsearch/build/libs/criteria-to-elasticsearch-{{projectVersion}}.jar
-        - path: ./criteria-to-spring-jpa/build/libs/criteria-to-spring-jpa-{{projectVersion}}.jar
-        - path: ./criteria-to-jdbc/build/libs/criteria-to-jdbc-{{projectVersion}}.jar
+#assemble:
+#  javaArchive:
+#    criteria-lib:
+#      active: ALWAYS
+#      artifacts:
+#        - path: ./criteria/build/libs/criteria-1.0.0.jar
+#        - path: ./criteria-from-http-servlet-request/build/libs/criteria-from-http-servlet-request-1.0.0.jar
+#        - path: ./criteria-to-elasticsearch/build/libs/criteria-to-elasticsearch-1.0.0.jar
+#        - path: ./criteria-to-spring-jpa/build/libs/criteria-to-spring-jpa-1.0.0.jar
+#        - path: ./criteria-to-jdbc/build/libs/criteria-to-jdbc-1.0.0.jar

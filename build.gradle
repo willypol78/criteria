@@ -18,6 +18,9 @@ subprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
 
+    group = 'io.github.willypol78'
+    version = '1.0.0'
+
     java {
         withJavadocJar()
         withSourcesJar()
