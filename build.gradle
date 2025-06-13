@@ -1,20 +1,23 @@
 plugins {
-    id 'java-library' apply false
+    id 'java-library'
     id "maven-publish"
-    id "signing"
+    id 'org.jreleaser' version '1.17.0'
 }
 
-allprojects {
-    group = 'io.github.willypol78'   // Grupo global para todos los módulos
-    version = '1.0.0'       // Versión global para todos los módulos
+group = 'io.github.willypol78'
+version = '1.0.0'
 
-    repositories {
-        mavenCentral()
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
+
 subprojects {
     apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+
     java {
         withJavadocJar()
         withSourcesJar()
@@ -22,5 +25,24 @@ subprojects {
 
     repositories {
         mavenCentral()
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+        repositories {
+            maven {
+                url = layout.buildDirectory.dir('staging-deploy')
+            }
+        }
+    }
+
+    tasks.withType(Javadoc).configureEach {
+        // Ignora warnings de Javadoc
+        options.addStringOption('Xdoclint:none', '-quiet')
+        failOnError = false
     }
 }

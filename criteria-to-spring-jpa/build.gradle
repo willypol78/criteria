@@ -1,8 +1,8 @@
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-apply plugin: 'org.springframework.boot' version '3.4.0'
-apply plugin: 'io.spring.dependency-management' version '1.1.6'
-
+plugins {
+    id 'java-library'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
 
 dependencies {
     implementation project(':criteria')
@@ -13,9 +13,8 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("org.testcontainers:postgresql:1.19.1")
-    testImplementation("org.testcontainers:junit-jupiter:1.19.1")
-    testImplementation("org.testcontainers:postgresql:1.19.1")
+    testImplementation("org.testcontainers:postgresql:1.21.1")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.1")
     testImplementation("org.postgresql:postgresql")
 }
 
@@ -23,38 +22,6 @@ test {
     useJUnitPlatform()
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            pom {
-                name = "Criteria To Spring JPA transformer"
-                description = "Criteria transformers for simplifying the search across several data sources."
-                url = "https://github.com/willypol78/criteria"
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = "willypol78"
-                        name = "Guillermo Mir"
-                        email = "guillermo.mir@gmail.com"
-                    }
-                }
-                scm {
-                    connection = "scm:git:git://github.com/willypol78/criteria.git"
-                    developerConnection = "scm:git:ssh://github.com:willypol78/criteria.git"
-                    url = "https://github.com/willypol78/criteria.git"
-                }
-            }
-        }
-    }
-}
-
-signing {
-    useGpgCmd()
-    sign publishing.publications.mavenJava
+bootJar {
+    enabled = false
 }

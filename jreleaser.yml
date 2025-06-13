@@ -1,77 +1,52 @@
 project:
-  name: Criteria
-  version: 1.0.0
-  description: Criteria transformers for simplifying the search across several data sources.
-  website: https://github.com/willypol78/criteria
-  authors:
-    - Guillermo Mir
+  name: criteria-lib
+  description: Library for building criteria queries
+  longDescription: |
+    criteria-lib es un conjunto de módulos que permite transformar criterios en distintas fuentes de datos como JPA, Elasticsearch y JDBC.
+  website: https://github.com/willypol78/criteria-lib
   license: Apache-2.0
+  authors:
+    - willypol78
+  tags:
+    - java
+    - criteria
+    - elasticsearch
+    - jpa
+    - jdbc
+  inceptionYear: 2025
   java:
     groupId: io.github.willypol78
-    version: 1.0.0
+    version: 21
     multiProject: true
 
 signing:
   active: ALWAYS
   armored: true
+  # Opción 1: Usando archivos de claves
   publicKey: "{{GPG_PUBLIC_KEY_BASE64}}"
   secretKey: "{{GPG_PRIVATE_KEY_BASE64}}"
   passphrase: "{{GPG_PASSPHRASE}}"
 
-assemble:
-  maven:
-    criteria:
-      active: ALWAYS
-      project:
-        path: criteria
-      pom:
-        name: Citeria
-        description: Criteria base objects
-    criteria-from-http-servlet-request:
-      active: ALWAYS
-      project:
-        path: criteria-from-http-servlet-request
-      pom:
-        name: HTTP Servlet Request to Criteria
-        description: Create a criteria from HTTP Servlet Request
-    criteria-to-elasticsearch:
-      active: ALWAYS
-      project:
-        path: criteria-to-elasticsearch
-      pom:
-        name: Criteria to Elasticsearch
-        description: Criteria to Elasticsearch transformer
-    criteria-to-spring-jpa:
-      active: ALWAYS
-      project:
-        path: criteria-to-spring-jpa
-      pom:
-        name: Criteria to Spring JPA
-        description: Criteria to Spring JPA transformer
-    criteria-to-jdbc:
-      active: ALWAYS
-      project:
-        path: criteria-to-jdbc
-      pom:
-        name: Criteria to JDBC
-        description: Criteria to JDBC transformer
-
 deploy:
   maven:
-    maven-central:
-      active: ALWAYS
-      coordinates:
-        groupId: io.github.willypol78
-      signing:
+    mavenCentral:
+      sonatype:
         active: ALWAYS
-      credentials:
-        username: {{MAVEN_CENTRAL_USERNAME}}
-        password: {{MAVEN_CENTRAL_PASSWORD}}
+        url: https://central.sonatype.com/api/v1/publisher
+        username: "{{MAVEN_CENTRAL_USERNAME}}"
+        password: "{{MAVEN_CENTRAL_PASSWORD}}"
+        sign: true
+        applyMavenCentralRules: true
+        stagingRepositories:
+          - target/staging-deploy
 
-release:
-  github:
-    owner: willypol78
-    name: criteria
-    changelog:
-      formatted: always
-      preset: conventional-commits
+assemble:
+  javaArchive:
+    criteria-lib:
+      active: ALWAYS
+      artifacts:
+        - path: ./criteria/build/libs/criteria-{{projectVersion}}.jar
+        - path: ./criteria-from-http-servlet-request/build/libs/criteria-from-http-servlet-request-{{projectVersion}}.jar
+        - path: ./criteria-to-elasticsearch/build/libs/criteria-to-elasticsearch-{{projectVersion}}.jar
+        - path: ./criteria-to-spring-jpa/build/libs/criteria-to-spring-jpa-{{projectVersion}}.jar
+        - path: ./criteria-to-jdbc/build/libs/criteria-to-jdbc-{{projectVersion}}.jar
