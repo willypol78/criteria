@@ -23,8 +23,8 @@ signing:
   active: ALWAYS
   armored: true
   # Opción 1: Usando archivos de claves
-  publicKey: "{{GPG_PUBLIC_KEY_BASE64}}"
-  secretKey: "{{GPG_PRIVATE_KEY_BASE64}}"
+  publicKey: "{{GPG_PUBLIC_KEY_BASE64} | base64decode}"
+  secretKey: "{{GPG_PRIVATE_KEY_BASE64 | base64decode}}"
   passphrase: "{{GPG_PASSPHRASE}}"
 
 deploy:
