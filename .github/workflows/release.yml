@@ -20,7 +20,7 @@ jobs:
 
       - name: Decrypt GPG key
         run: |
-          echo "$GPG_PRIVATE_KEY_BASE64" | base64 -d > private.key
+          echo "$GPG_PRIVATE_KEY_BASE64" > private.key
           cat private.key
 
       - name: Import GPG key
