@@ -18,13 +18,9 @@ jobs:
           distribution: 'temurin'
           java-version: 21
 
-      - name: Decrypt GPG key
+      - name: Prepare GPG key
         run: |
           echo "$GPG_PRIVATE_KEY_BASE64" > private.key
-          cat private.key
-
-      - name: Import GPG key
-        run: |
           gpg --batch --import private.key
 
       - name: Download and setup JReleaser
