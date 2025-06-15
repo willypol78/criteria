@@ -21,11 +21,12 @@ project:
 
 signing:
   active: ALWAYS
+  mode: command
   armored: true
-  # Opción 1: Usando archivos de claves
-  publicKey: "{{GPG_PUBLIC_KEY_BASE64} | base64decode}"
-  secretKey: "{{GPG_PRIVATE_KEY_BASE64 | base64decode}}"
   passphrase: "{{GPG_PASSPHRASE}}"
+  command:
+    executable: gpg
+    keyName: 0D8276B9906C52FA
 
 deploy:
   maven:
@@ -38,15 +39,8 @@ deploy:
         sign: true
         applyMavenCentralRules: true
         stagingRepositories:
-          - target/staging-deploy
-
-#assemble:
-#  javaArchive:
-#    criteria-lib:
-#      active: ALWAYS
-#      artifacts:
-#        - path: ./criteria/build/libs/criteria-1.0.0.jar
-#        - path: ./criteria-from-http-servlet-request/build/libs/criteria-from-http-servlet-request-1.0.0.jar
-#        - path: ./criteria-to-elasticsearch/build/libs/criteria-to-elasticsearch-1.0.0.jar
-#        - path: ./criteria-to-spring-jpa/build/libs/criteria-to-spring-jpa-1.0.0.jar
-#        - path: ./criteria-to-jdbc/build/libs/criteria-to-jdbc-1.0.0.jar
+          - criteria/build/staging-deploy
+          - criteria-from-http-servlet-request/build/staging-deploy
+          - criteria-to-elasticsearch/build/staging-deploy
+          - criteria-to-spring-jpa/build/staging-deploy
+          - criteria-to-jdbc/build/staging-deploy
