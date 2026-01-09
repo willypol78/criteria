@@ -21,12 +21,7 @@ project:
 
 signing:
   active: ALWAYS
-  mode: command
   armored: true
-  passphrase: "{{GPG_PASSPHRASE}}"
-  command:
-    executable: gpg
-    keyName: 0D8276B9906C52FA
 
 deploy:
   maven:
@@ -34,9 +29,6 @@ deploy:
       sonatype:
         active: ALWAYS
         url: https://central.sonatype.com/api/v1/publisher
-        username: "{{MAVEN_CENTRAL_USERNAME}}"
-        password: "{{MAVEN_CENTRAL_PASSWORD}}"
-        sign: true
         applyMavenCentralRules: true
         stagingRepositories:
           - criteria/build/staging-deploy

@@ -20,26 +20,23 @@ jobs:
 
       - name: Prepare GPG key
         run: |
-          echo "$GPG_PRIVATE_KEY_BASE64" > private.key
-          gpg --batch --import private.key
-
-      - name: Download and setup JReleaser
-        run: |
-          wget -q https://github.com/jreleaser/jreleaser/releases/download/v1.17.0/jreleaser-1.17.0.zip
-          unzip -q jreleaser-1.17.0.zip
-          echo "$PWD/jreleaser-1.17.0/bin" >> $GITHUB_PATH
+          echo "${{ secrets.GPG_PRIVATE_KEY_BASE64 }}" | base64 -d | gpg --batch --import
+        env:
+          GPG_TTY: $(tty)
 
       - name: Set project version from tag
         run: echo "JRELEASER_PROJECT_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
 
-      - name: Build project with Gradle
-        run: ./gradlew clean build publish javadocJar sourcesJar -Pmaven.repo.local=build/staging-deploy
+      - name: Build and publish to staging
+        run: ./gradlew clean build publish
+        env:
+          JRELEASER_PROJECT_VERSION: ${{ env.JRELEASER_PROJECT_VERSION }}
 
       - name: Run JReleaser
-        run: jreleaser full-release
+        run: ./gradlew jreleaserFullRelease
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          JRELEASER_MAVENCENTRAL_SONATYPE_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          JRELEASER_MAVENCENTRAL_SONATYPE_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           JRELEASER_PROJECT_VERSION: ${{ env.JRELEASER_PROJECT_VERSION }}
