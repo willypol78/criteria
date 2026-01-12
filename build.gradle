@@ -1,13 +1,14 @@
 plugins {
+    id 'base'
     id 'org.jreleaser' version '1.22.0'
 }
 
 group = 'io.github.willypol78'
 version = '1.0.0'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+allprojects {
+    repositories {
+        mavenCentral()
     }
 }
 
