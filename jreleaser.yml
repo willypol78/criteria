@@ -1,9 +1,9 @@
 project:
-  name: criteria-lib
+  name: criteria
   description: Library for building criteria queries
   longDescription: |
-    criteria-lib es un conjunto de módulos que permite transformar criterios en distintas fuentes de datos como JPA, Elasticsearch y JDBC.
-  website: https://github.com/willypol78/criteria-lib
+    criteria es un conjunto de módulos que permite transformar criterios en distintas fuentes de datos como JPA, Elasticsearch y JDBC.
+  website: https://github.com/willypol78/criteria
   license: Apache-2.0
   authors:
     - willypol78
