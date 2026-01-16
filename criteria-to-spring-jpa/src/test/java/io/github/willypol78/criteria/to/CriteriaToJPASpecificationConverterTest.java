@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -38,240 +39,240 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Testcontainers
 class CriteriaToJPASpecificationConverterTest {
 
-	@Container
-	private final static PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:16.0");
+    @Container
+    private static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:16.0");
 
-	@Autowired
-	private UsersTestRepository usersTestRepository;
+    @Autowired
+    private UsersTestRepository usersTestRepository;
 
-	@DynamicPropertySource
-	public static void overrideProps(DynamicPropertyRegistry registry) {
-		registry.add("spring.datasource.url", container::getJdbcUrl);
-		registry.add("spring.datasource.username", container::getUsername);
-		registry.add("spring.datasource.password", container::getPassword);
-		registry.add("spring.jpa.show-sql", () -> Boolean.TRUE);
-	}
+    @DynamicPropertySource
+    public static void overrideProps(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", container::getJdbcUrl);
+        registry.add("spring.datasource.username", container::getUsername);
+        registry.add("spring.datasource.password", container::getPassword);
+        registry.add("spring.jpa.show-sql", () -> Boolean.TRUE);
+    }
 
-	@Test
-	@DisplayName("Debe cargar los beans")
-	void shouldLoadBeans() {
-		// Given When Then
-		assertThat(usersTestRepository).isNotNull();
-	}
+    @Test
+    @DisplayName("Debe cargar los beans")
+    void shouldLoadBeans() {
+        // Given When Then
+        assertThat(usersTestRepository).isNotNull();
+    }
 
-	@Test
-	@DisplayName("Should test private constructor")
-	void shouldTestPrivateConstructor() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-		// Given
-		Constructor<CriteriaToJPASpecificationConverterTest> constructor = CriteriaToJPASpecificationConverterTest.class.getDeclaredConstructor();
-		constructor.setAccessible(true);
-		// When
-		CriteriaToJPASpecificationConverterTest instance = constructor.newInstance();
-		// Then
-		AssertionsForClassTypes.assertThat(instance).isNotNull();
-	}
+    @Test
+    @DisplayName("Should test private constructor")
+    void shouldTestPrivateConstructor() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        // Given
+        Constructor<CriteriaToJPASpecificationConverterTest> constructor = CriteriaToJPASpecificationConverterTest.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        // When
+        CriteriaToJPASpecificationConverterTest instance = constructor.newInstance();
+        // Then
+        AssertionsForClassTypes.assertThat(instance).isNotNull();
+    }
 
-	@Test
-	@DisplayName("Should return the elements with attempts >= 50")
-	@Sql("/db/test.sql")
-	void shouldReturnTheElementsWithAttemptsGreaterThan() throws InvalidCriteria {
-		// Given
-		Filter       f1         = new ComparatorFilter("attempts", ComparatorFilterOperator.GTE, 50);
-		List<Filter> expression = List.of(f1);
+    @Test
+    @DisplayName("Should return the elements with attempts >= 50")
+    @Sql("/db/test.sql")
+    void shouldReturnTheElementsWithAttemptsGreaterThan() throws InvalidCriteria {
+        // Given
+        Filter f1 = new ComparatorFilter("attempts", ComparatorFilterOperator.GTE, 50);
+        List<Filter> expression = List.of(f1);
 
-		Filters filters = new Filters(expression);
+        Filters filters = new Filters(expression);
 
-		Integer  page     = 0;
-		Integer  size     = 2;
-		Order    order    = Order.none();
-		Criteria criteria = new Criteria(filters, order, size, page);
+        Integer page = 0;
+        Integer size = 2;
+        Order order = Order.none();
+        Criteria criteria = new Criteria(filters, order, size, page);
 
-		PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
+        PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
 
-		// When
-		Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
+        // When
+        Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
 
-		// Then
-		assertEquals(3, entityPage.getTotalElements());
-		assertEquals(2, entityPage.getContent().size());
-		assertEquals(2, entityPage.getTotalPages());
-	}
+        // Then
+        assertEquals(3, entityPage.getTotalElements());
+        assertEquals(2, entityPage.getContent().size());
+        assertEquals(2, entityPage.getTotalPages());
+    }
 
-	@Test
-	@DisplayName("Should return simple criteria with equals UUID query: \"81abaa90-2f91-11ee-be56-0242ac120002\"")
-	@Sql("/db/test.sql")
-	void shouldReturnSimpleCriteriaWithEqualsUUIDQuery() throws InvalidCriteria {
-		// Given
-		Filter       f1         = new ComparatorFilter("id", ComparatorFilterOperator.EQUAL, UUID.fromString("81abaa90-2f91-11ee-be56-0242ac120002"));
-		List<Filter> expression = List.of(f1);
+    @Test
+    @DisplayName("Should return simple criteria with equals UUID query: \"81abaa90-2f91-11ee-be56-0242ac120002\"")
+    @Sql("/db/test.sql")
+    void shouldReturnSimpleCriteriaWithEqualsUUIDQuery() throws InvalidCriteria {
+        // Given
+        Filter f1 = new ComparatorFilter("id", ComparatorFilterOperator.EQUAL, UUID.fromString("81abaa90-2f91-11ee-be56-0242ac120002"));
+        List<Filter> expression = List.of(f1);
 
-		Filters  filters  = new Filters(expression);
-		Integer  page     = 0;
-		Integer  size     = 20;
-		Order    order    = Order.none();
-		Criteria criteria = new Criteria(filters, order, size, page);
+        Filters filters = new Filters(expression);
+        Integer page = 0;
+        Integer size = 20;
+        Order order = Order.none();
+        Criteria criteria = new Criteria(filters, order, size, page);
 
-		PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
+        PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
 
-		// When
-		Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
+        // When
+        Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
 
-		// Then
-		assertEquals(1, entityPage.getTotalElements());
-		assertEquals(1, entityPage.getContent().size());
-		assertEquals(1, entityPage.getTotalPages());
-	}
+        // Then
+        assertEquals(1, entityPage.getTotalElements());
+        assertEquals(1, entityPage.getContent().size());
+        assertEquals(1, entityPage.getTotalPages());
+    }
 
-	@Test
-	@DisplayName("Should return simple criteria with equals query and return ignoring case")
-	@Sql("/db/test.sql")
-	void shouldExecuteSimpleCriteriaWithEqualsQueryAndReturnIgnoringCase() throws InvalidCriteria {
-		// Given
-		Filter       f1         = new ComparatorFilter("name", ComparatorFilterOperator.EQUAL, "GUIllermo");
-		List<Filter> expression = List.of(f1);
+    @Test
+    @DisplayName("Should return simple criteria with equals query and return ignoring case")
+    @Sql("/db/test.sql")
+    void shouldExecuteSimpleCriteriaWithEqualsQueryAndReturnIgnoringCase() throws InvalidCriteria {
+        // Given
+        Filter f1 = new ComparatorFilter("name", ComparatorFilterOperator.EQUAL, "GUIllermo");
+        List<Filter> expression = List.of(f1);
 
-		Filters filters = new Filters(expression);
-		Integer page    = 0;
-		Integer size    = 20;
-		Order   order   = Order.none();
+        Filters filters = new Filters(expression);
+        Integer page = 0;
+        Integer size = 20;
+        Order order = Order.none();
 
-		Criteria criteria = new Criteria(filters, order, size, page);
+        Criteria criteria = new Criteria(filters, order, size, page);
 
-		PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
+        PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
 
-		// When
-		Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
+        // When
+        Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
 
-		// Then
-		assertEquals(1, entityPage.getTotalElements());
-	}
+        // Then
+        assertEquals(1, entityPage.getTotalElements());
+    }
 
-	@Test
-	@DisplayName("Should return the elements that match with regexp criteria")
-	@Sql("/db/test.sql")
-	void shouldReturnTheElementsThatMatchWithRegexpCriteria() throws InvalidCriteria {
-		// Given
-		Filter       f1         = new ComparatorFilter("name", ComparatorFilterOperator.REG_EXP, "^Gui.*$");
-		List<Filter> expression = List.of(f1);
+    @Test
+    @DisplayName("Should return the elements that match with regexp criteria")
+    @Sql("/db/test.sql")
+    void shouldReturnTheElementsThatMatchWithRegexpCriteria() throws InvalidCriteria {
+        // Given
+        Filter f1 = new ComparatorFilter("name", ComparatorFilterOperator.REG_EXP, "^Gui.*$");
+        List<Filter> expression = List.of(f1);
 
-		Filters filters = new Filters(expression);
-		Integer page    = 0;
-		Integer size    = 20;
-		Order   order   = Order.none();
+        Filters filters = new Filters(expression);
+        Integer page = 0;
+        Integer size = 20;
+        Order order = Order.none();
 
-		Criteria criteria = new Criteria(filters, order, size, page);
+        Criteria criteria = new Criteria(filters, order, size, page);
 
-		PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
+        PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
 
-		// When
-		Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
+        // When
+        Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
 
-		// Then
-		assertEquals(1, entityPage.getTotalElements());
-	}
+        // Then
+        assertEquals(1, entityPage.getTotalElements());
+    }
 
-	@Test
-	@DisplayName("Should return the two elements that match with criteria CONTAINS, GTE")
-	@Sql("/db/test.sql")
-	void shouldReturnTheTwoElementsThatMatchWithCriteria() throws InvalidCriteria {
-		// Given
-		Filter       f1         = new ComparatorFilter("attempts", ComparatorFilterOperator.GTE, 50);
-		Filter       f2         = new ComparatorFilter("name", ComparatorFilterOperator.CONTAINS, "aco");
-		Filter       f3         = new ComparatorFilter("name", ComparatorFilterOperator.CONTAINS, "avi");
-		List<Filter> expression = List.of(f1, and(), openParenthesis(), f2, or(), f3, closeParenthesis());
+    @Test
+    @DisplayName("Should return the two elements that match with criteria CONTAINS, GTE")
+    @Sql("/db/test.sql")
+    void shouldReturnTheTwoElementsThatMatchWithCriteria() throws InvalidCriteria {
+        // Given
+        Filter f1 = new ComparatorFilter("attempts", ComparatorFilterOperator.GTE, 50);
+        Filter f2 = new ComparatorFilter("name", ComparatorFilterOperator.CONTAINS, "aco");
+        Filter f3 = new ComparatorFilter("name", ComparatorFilterOperator.CONTAINS, "avi");
+        List<Filter> expression = List.of(f1, and(), openParenthesis(), f2, or(), f3, closeParenthesis());
 
-		Filters filters = new Filters(expression);
-		Integer page    = 0;
-		Integer size    = 20;
-		Order   order   = Order.asc("enabled");
+        Filters filters = new Filters(expression);
+        Integer page = 0;
+        Integer size = 20;
+        Order order = Order.asc("enabled");
 
-		Criteria criteria = new Criteria(filters, order, size, page);
+        Criteria criteria = new Criteria(filters, order, size, page);
 
-		PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
+        PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
 
-		// When
-		Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
+        // When
+        Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
 
-		// Then
-		assertEquals(2, entityPage.getTotalElements());
-	}
+        // Then
+        assertEquals(2, entityPage.getTotalElements());
+    }
 
-	@Test
-	@DisplayName("Should return the element that match with criteria with NotEqual, LT y GT")
-	@Sql("/db/test.sql")
-	void shouldReturnTheElementThatMatchWithCriteria_NotEqual_LT_GT() throws InvalidCriteria {
-		// Given
-		Filter       f1         = new ComparatorFilter("enabled", ComparatorFilterOperator.NOT_EQUAL, true);
-		Filter       f2         = new ComparatorFilter("attempts", ComparatorFilterOperator.GT, 25);
-		Filter       f3         = new ComparatorFilter("attempts", ComparatorFilterOperator.LT, 100);
-		List<Filter> expression = List.of(f1, and(), openParenthesis(), f2, and(), f3, closeParenthesis());
+    @Test
+    @DisplayName("Should return the element that match with criteria with NotEqual, LT y GT")
+    @Sql("/db/test.sql")
+    void shouldReturnTheElementThatMatchWithCriteria_NotEqual_LT_GT() throws InvalidCriteria {
+        // Given
+        Filter f1 = new ComparatorFilter("enabled", ComparatorFilterOperator.NOT_EQUAL, true);
+        Filter f2 = new ComparatorFilter("attempts", ComparatorFilterOperator.GT, 25);
+        Filter f3 = new ComparatorFilter("attempts", ComparatorFilterOperator.LT, 100);
+        List<Filter> expression = List.of(f1, and(), openParenthesis(), f2, and(), f3, closeParenthesis());
 
-		Filters filters = new Filters(expression);
-		Integer page    = 0;
-		Integer size    = 20;
-		Order   order   = Order.desc("enabled");
+        Filters filters = new Filters(expression);
+        Integer page = 0;
+        Integer size = 20;
+        Order order = Order.desc("enabled");
 
-		Criteria criteria = new Criteria(filters, order, size, page);
+        Criteria criteria = new Criteria(filters, order, size, page);
 
-		PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
+        PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
 
-		// When
-		Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
+        // When
+        Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
 
-		// Then
-		assertEquals(1, entityPage.getTotalElements());
-	}
+        // Then
+        assertEquals(1, entityPage.getTotalElements());
+    }
 
-	@Test
-	@DisplayName("Should return the element that match with criteria with braces")
-	@Sql("/db/test.sql")
-	void shouldReturnTheElementThatMatchWithCriteriaWithBraces() throws InvalidCriteria {
-		// Given
-		Filter       f1         = new ComparatorFilter("name", ComparatorFilterOperator.NOT_EQUAL, "name");
-		Filter       f2         = new ComparatorFilter("attempts", ComparatorFilterOperator.NOT_EQUAL, 50);
-		Filter       f3         = new ComparatorFilter("attempts", ComparatorFilterOperator.NOT_EQUAL, 100L);
-		Filter       f4         = new ComparatorFilter("surname", ComparatorFilterOperator.CONTAINS, "aste");
-		Filter       f5         = new ComparatorFilter("enabled", ComparatorFilterOperator.NOT_EQUAL, true);
-		List<Filter> expression = List.of(f1, and(), openParenthesis(), f2, and(), f3, and(), f4, or(), f5, closeParenthesis());
+    @Test
+    @DisplayName("Should return the element that match with criteria with braces")
+    @Sql("/db/test.sql")
+    void shouldReturnTheElementThatMatchWithCriteriaWithBraces() throws InvalidCriteria {
+        // Given
+        Filter f1 = new ComparatorFilter("name", ComparatorFilterOperator.NOT_EQUAL, "name");
+        Filter f2 = new ComparatorFilter("attempts", ComparatorFilterOperator.NOT_EQUAL, 50);
+        Filter f3 = new ComparatorFilter("attempts", ComparatorFilterOperator.NOT_EQUAL, 100L);
+        Filter f4 = new ComparatorFilter("surname", ComparatorFilterOperator.CONTAINS, "aste");
+        Filter f5 = new ComparatorFilter("enabled", ComparatorFilterOperator.NOT_EQUAL, true);
+        List<Filter> expression = List.of(f1, and(), openParenthesis(), f2, and(), f3, and(), f4, or(), f5, closeParenthesis());
 
-		Filters filters = new Filters(expression);
-		Integer page    = 0;
-		Integer size    = 20;
-		Order   order   = Order.none();
+        Filters filters = new Filters(expression);
+        Integer page = 0;
+        Integer size = 20;
+        Order order = Order.none();
 
-		Criteria criteria = new Criteria(filters, order, size, page);
+        Criteria criteria = new Criteria(filters, order, size, page);
 
-		PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
+        PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
 
-		// When
-		Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
+        // When
+        Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
 
-		// Then
-		assertEquals(2, entityPage.getTotalElements());
-	}
+        // Then
+        assertEquals(2, entityPage.getTotalElements());
+    }
 
-	@Test
-	@DisplayName("Should return the element that match with criteria not enabled")
-	@Sql("/db/test.sql")
-	void shouldReturnTheElementThatMatchWithCriteriaNotEnabled() throws InvalidCriteria {
-		// Given
-		Filter       f1         = new ComparatorFilter("enabled", ComparatorFilterOperator.EQUAL, true);
-		List<Filter> expression = List.of(not(), f1);
+    @Test
+    @DisplayName("Should return the element that match with criteria not enabled")
+    @Sql("/db/test.sql")
+    void shouldReturnTheElementThatMatchWithCriteriaNotEnabled() throws InvalidCriteria {
+        // Given
+        Filter f1 = new ComparatorFilter("enabled", ComparatorFilterOperator.EQUAL, true);
+        List<Filter> expression = List.of(not(), f1);
 
-		Filters filters = new Filters(expression);
-		Integer page    = 0;
-		Integer size    = 20;
-		Order   order   = Order.none();
+        Filters filters = new Filters(expression);
+        Integer page = 0;
+        Integer size = 20;
+        Order order = Order.none();
 
-		Criteria criteria = new Criteria(filters, order, size, page);
+        Criteria criteria = new Criteria(filters, order, size, page);
 
-		PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
+        PostgreSQLUsersTestRepository postgreSQLUsersTestRepository = new PostgreSQLUsersTestRepository(usersTestRepository);
 
-		// When
-		Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
+        // When
+        Page<UserTestEntity> entityPage = postgreSQLUsersTestRepository.search(criteria);
 
-		// Then
-		assertEquals(2, entityPage.getTotalElements());
-	}
+        // Then
+        assertEquals(2, entityPage.getTotalElements());
+    }
 
 }
