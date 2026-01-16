@@ -1,17 +1,57 @@
 plugins {
-    id 'base'
-    id 'org.jreleaser' version '1.22.0'
+    id "com.vanniktech.maven.publish" version "0.35.0" apply false
 }
 
 group = 'io.github.willypol78'
-version = '1.0.0'
+version = '1.0.2'
 
-allprojects {
+subprojects {
+    apply plugin: 'com.vanniktech.maven.publish'
+
+    group = rootProject.group
+    version = rootProject.version
+
     repositories {
         mavenCentral()
     }
-}
 
-jreleaser {
-    gitRootSearch = true
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+
+    tasks.configureEach { task ->
+        if (task.name == 'generateMetadataFileForMavenPublication') {
+            task.dependsOn(tasks.matching { it.name.endsWith('Jar') })
+        }
+    }
+
+    mavenPublishing {
+        coordinates(group.toString(), project.name, version.toString())
+
+        pom {
+            name = project.name
+            description = project.description ?: ""
+            inceptionYear = "2025"
+            url = "https://github.com/willypol78/criteria/"
+            licenses {
+                license {
+                    name = "The Apache License, Version 2.0"
+                    url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    distribution = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                }
+            }
+            developers {
+                developer {
+                    id = "willypol78"
+                    name = "Guillermo Mir"
+                    url = "https://github.com/willypol78/"
+                }
+            }
+            scm {
+                url = "https://github.com/willypol78/criteria/"
+                connection = "scm:git:git://github.com/willypol78/criteria.git"
+                developerConnection = "scm:git:ssh://git@github.com/willypol78/criteria.git"
+            }
+        }
+    }
 }

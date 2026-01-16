@@ -1,13 +1,12 @@
 plugins {
     id 'java-library'
-    id 'maven-publish'
-    id 'org.springframework.boot' version '3.4.0'
+    id 'org.springframework.boot' version '3.5.9'
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
+ext {
+    artifactId = 'criteria-to-spring-jpa'
+    pomName = 'Criteria to Spring JPA'
 }
 
 dependencies {
@@ -28,49 +27,12 @@ test {
     useJUnitPlatform()
 }
 
+ext {
+    artifactId = 'criteria-to-jpa'
+    pomName = 'Criteria to Spring JPA Specification'
+}
+description = "Transform a Criteria Object to a Spring Data JPA Specification"
+
 bootJar {
     enabled = false
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'io.github.willypol78'
-            artifactId = 'criteria-to-spring-jpa'
-            from components.java
-
-            pom {
-                name = 'Criteria to Spring JPA'
-                description = 'Transformación de criterios a Spring Data JPA Specifications'
-                url = 'https://github.com/willypol78/criteria'
-                inceptionYear = '2025'
-
-                licenses {
-                    license {
-                        name = 'Apache-2.0'
-                        url = 'https://spdx.org/licenses/Apache-2.0.html'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id = 'willypol78'
-                        name = 'Guillermo Mir'
-                    }
-                }
-
-                scm {
-                    connection = 'scm:git:https://github.com/willypol78/criteria.git'
-                    developerConnection = 'scm:git:ssh://github.com/willypol78/criteria.git'
-                    url = 'https://github.com/willypol78/criteria'
-                }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            url = layout.buildDirectory.dir('staging-deploy')
-        }
-    }
 }

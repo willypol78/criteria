@@ -1,12 +1,13 @@
 plugins {
     id 'java-library'
-    id 'maven-publish'
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
+ext {
+    artifactId = 'criteria-from-http-servlet-request'
+    pomName = 'Criteria from http-servlet-request'
 }
+
+description = 'Transform a http-servlet-request to a Criteria Object'
 
 dependencies {
     implementation project(':criteria')
@@ -26,46 +27,40 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'io.github.willypol78'
-            artifactId = 'criteria-from-http-servlet-request'
-            from components.java
-
-            pom {
-                name = 'Criteria from HTTP Servlet Request'
-                description = 'Librería para extraer criterios desde HttpServletRequest'
-                url = 'https://github.com/willypol78/criteria'
-                inceptionYear = '2025'
-
-                licenses {
-                    license {
-                        name = 'Apache-2.0'
-                        url = 'https://spdx.org/licenses/Apache-2.0.html'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id = 'willypol78'
-                        name = 'Guillermo Mir'
-                    }
-                }
-
-                scm {
-                    connection = 'scm:git:https://github.com/willypol78/criteria.git'
-                    developerConnection = 'scm:git:ssh://github.com/willypol78/criteria.git'
-                    url = 'https://github.com/willypol78/criteria'
-                }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            url = layout.buildDirectory.dir('staging-deploy')
-        }
-    }
-}
+//
+//publishing {
+//    publications {
+//        maven(MavenPublication) {
+//            groupId = 'io.github.willypol78'
+//            artifactId = 'criteria-from-http-servlet-request'
+//            from components.java
+//
+//            pom {
+//                name = 'Criteria Transformer from http-servlet-request'
+//                description = 'Transform a http-servlet-request to a Criteria Object'
+//                url = 'https://github.com/willypol78/criteria'
+//                inceptionYear = '2025'
+//
+//                licenses {
+//                    license {
+//                        name = 'Apache-2.0'
+//                        url = 'https://spdx.org/licenses/Apache-2.0.html'
+//                    }
+//                }
+//
+//                developers {
+//                    developer {
+//                        id = 'willypol78'
+//                        name = 'Guillermo Mir'
+//                    }
+//                }
+//
+//                scm {
+//                    connection = 'scm:git:https://github.com/willypol78/criteria.git'
+//                    developerConnection = 'scm:git:ssh://github.com/willypol78/criteria.git'
+//                    url = 'https://github.com/willypol78/criteria'
+//                }
+//            }
+//        }
+//    }
+//}

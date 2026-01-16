@@ -1,12 +1,13 @@
 plugins {
     id 'java-library'
-    id 'maven-publish'
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
+ext {
+    artifactId = 'criteria'
+    pomName = 'Criteria objects'
 }
+
+description = "Criteria Objects for an opinionated criteria pattern implementation"
 
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
@@ -15,47 +16,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'io.github.willypol78'
-            artifactId = 'criteria'
-            from components.java
-
-            pom {
-                name = 'Criteria'
-                description = 'Objetos base del patrón'
-                url = 'https://github.com/willypol78/criteria'
-                inceptionYear = '2025'
-
-                licenses {
-                    license {
-                        name = 'Apache-2.0'
-                        url = 'https://spdx.org/licenses/Apache-2.0.html'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id = 'willypol78'
-                        name = 'Guillermo Mir'
-                    }
-                }
-
-                scm {
-                    connection = 'scm:git:https://github.com/willypol78/criteria.git'
-                    developerConnection = 'scm:git:ssh://github.com/willypol78/criteria.git'
-                    url = 'https://github.com/willypol78/criteria'
-                }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            url = layout.buildDirectory.dir('staging-deploy')
-        }
-    }
 }
