@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'io.github.willypol78'
-version = '1.0.3'
+version = '1.0.4'
 
 subprojects {
     apply plugin: 'com.vanniktech.maven.publish'
