@@ -41,6 +41,11 @@ jobs:
             exit 1
           fi
 
+      - name: Remove local Java home configuration
+        run: |
+          sed -i '/org.gradle.java.home/d' gradle.properties
+          cat gradle.properties
+
       - name: Publish to Maven Central
         run: ./gradlew publishToMavenCentral --no-configuration-cache
         env:
